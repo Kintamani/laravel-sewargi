@@ -5,7 +5,7 @@ use App\Http\Controllers\KependudukanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return response()->json(['message' => 'Hello world!']);
+    return response()->json(['message' => 'API is running!'], 200);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
