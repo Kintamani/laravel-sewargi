@@ -14,5 +14,5 @@ use App\Models\User;
 interface UserInterface
 {
     public function register(array $input): User;
-    public function profile(int $id): User;
+    public function profile(int $id): array;
 }
