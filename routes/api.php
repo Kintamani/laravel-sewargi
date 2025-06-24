@@ -13,7 +13,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/kependudukan/nik', [KependudukanController::class, 'nik']);
 
 Route::middleware('jwt')->group(function () {
-    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/kependudukan', [KependudukanController::class, 'kk']);

@@ -11,6 +11,8 @@ use App\Models\User;
  * Kelas yang mengimplementasikan antarmuka ini harus menyediakan
  * metode yang didefinisikan di sini.
  */
-interface UserInterface {
+interface UserInterface
+{
     public function register(array $input): User;
+    public function profile(int $id): User;
 }
