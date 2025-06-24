@@ -159,7 +159,11 @@ class AuthController extends Controller
     {
         $user = auth('api')->user();
         try {
+<<<<<<< HEAD
             $data = $this->userRepository->profile($user->id);
+=======
+            $data = $this->userRepository->register($user->id);
+>>>>>>> 7f797a2f21d271523939d063950463f8ba62d478
             return response()->json([
                 'data' => $data,
             ], 200);
