@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\UserInterface;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserInterface
@@ -22,6 +23,17 @@ class UserRepository implements UserInterface
         }
         $user = User::create($input);
 
+        return $user;
+    }
+
+    /**
+     * Mendapatkan profil pengguna.
+     *
+     * @return \App\Models\User
+     */
+    public function profile(int $id): User
+    {
+        $user = User::find($id);
         return $user;
     }
 }

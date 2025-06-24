@@ -7,8 +7,8 @@ use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException; 
-use Tymon\JWTAuth\Exceptions\TokenInvalidException; 
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 /**
  * Class AuthController
@@ -42,14 +42,12 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // 1. Validasi input registrasi
         $validation = Validator::make($request->all(), [
             'nik' => 'required|numeric|digits:16|unique:users,nik',
             'password' => 'required|string|min:6',
             'email' => 'required|string|email|unique:users,email',
         ]);
 
-        // Jika validasi gagal, kembalikan respons error
         if ($validation->fails()) {
             return response()->json([
                 'message' => $validation->errors(),
@@ -72,7 +70,6 @@ class AuthController extends Controller
                     'expires_in' => auth('api')->factory()->getTTL() * 60,
                 ],
             ], 201);
-
         } catch (JWTException $e) {
             return response()->json([
                 'message' => 'Failed to generate token.',
@@ -121,7 +118,7 @@ class AuthController extends Controller
         return response()->json([
             'data' => [
                 'token' => $token,
-                'expires_in' => auth('api')->factory()->getTTL() * 60, 
+                'expires_in' => auth('api')->factory()->getTTL() * 60,
             ],
         ], 200);
     }
@@ -138,7 +135,6 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Successfully logged out.',
             ], 200);
-
         } catch (TokenExpiredException $e) {
             return response()->json([
                 'message' => 'Token Expired, but successfully logged out.',
@@ -150,6 +146,26 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json([
                 'message' => 'Filed to logout, please try again.',
+            ], 500);
+        }
+    }
+
+    /**
+     * Mendapatkan profil pengguna.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profile()
+    {
+        $user = auth('api')->user();
+        try {
+            $data = $this->userRepository->profile($user->id);
+            return response()->json([
+                'data' => $data,
+            ], 200);
+        } catch (JWTException $e) {
+            return response()->json([
+                'message' => 'Failed to get profile.',
             ], 500);
         }
     }
