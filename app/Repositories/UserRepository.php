@@ -33,7 +33,9 @@ class UserRepository implements UserInterface
      */
     public function profile(int $id): User
     {
-        $user = User::find($id);
+        $user = User::select('id', 'nik', 'email', 'name')
+            ->where('id', $id)
+            ->first();
         return $user;
     }
 }
